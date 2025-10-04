@@ -51,6 +51,9 @@ Deploy and test by sending a DM on Instagram.
 ### n8n Flow
 ![n8n Flow](flow%20n8n.png)
 
+## Workflow json
+![workflow n8n](workflow%20n8n.json)
+
 
 
 ## 🧑‍💻 Author
