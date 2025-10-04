@@ -1,0 +1,176 @@
+{
+  "name": "Github1",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "6c33722d-5032-4c52-90e7-8952c88813ee",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "b36db940-663f-43d9-a1a3-7c6af8382f3b",
+      "name": "Webhook",
+      "webhookId": "6c33722d-5032-4c52-90e7-8952c88813ee"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"categoria\": \"={{ $item(0).$json.categoria }}\",\n  \"respuesta\": \"={{ $item(0).$json.respuesta }}\"\n}\n",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        832,
+        0
+      ],
+      "id": "c847ae5f-5e6b-4013-addb-433d0c2af04c",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4",
+          "mode": "list",
+          "cachedResultName": "GPT-4"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Eres un clasificador de leads de Instagram. Según el mensaje, devuelves una categoría y una respuesta predefinida.\nCategorías:\n- LEAD: alguien interesado en comprar → Responde con \"LEAD|Hola 👋, gracias por tu interés. Te escribimos en breve con la información.\"\n- SOPORTE: alguien con dudas técnicas → Responde con \"SOPORTE|Claro, nuestro equipo de soporte te contactará enseguida.\"\n- SPAM: mensajes irrelevantes → Responde con \"SPAM|Gracias por tu mensaje.\"\nDevuelve siempre en el formato: CATEGORÍA|RESPUESTA\n",
+              "role": "system"
+            },
+            {
+              "content": "=Mensaje del usuario: {{$json[\"body\"][\"message\"]}}\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        208,
+        0
+      ],
+      "id": "bcea4345-7a40-43a9-aa12-fb80d6109300",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": "VEPsgucb8nxgv6aM",
+          "name": "OpenAi account 5"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return {\n  categoria: \"SOPORTE\",\n  respuesta: \"Claro, nuestro equipo de soporte te contactará enseguida.\"\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        592,
+        0
+      ],
+      "id": "7be5d0c7-f63d-4470-8064-c6b0cdce680e",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "content": "## Instructions\n\n**El webhook debe estar expuesto con Cloudflare/gnrok\n\nAsegurate que tenga respond to webhook activo** ",
+        "height": 352,
+        "width": 272
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -64,
+        -192
+      ],
+      "id": "4db121a7-fb21-4ab0-895f-9811bd423a06",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## OPENAI\n** Configura tus credenciales **"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        208,
+        -192
+      ],
+      "id": "d23d438c-bd27-4bf1-8ef2-2d7e735112fd",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "\n**Mapea las variables como se devuelven del nodo code** ",
+        "height": 304
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        768,
+        -112
+      ],
+      "id": "5a011673-542b-460f-9201-e63a4471d958",
+      "name": "Sticky Note2"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "6836067e-d127-4150-b5ad-8f3143dfef0a",
+  "meta": {
+    "instanceId": "a16e97936fc1d2fac6a9b374f09f1b6afb76ce8d456aa153acf4ec471bb8290b"
+  },
+  "id": "irliCRsldXrj98yW",
+  "tags": []
+}
