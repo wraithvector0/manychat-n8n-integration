@@ -43,11 +43,13 @@ Gmail (optional)
 
 Deploy and test by sending a DM on Instagram.
 
-## Example flow
+## 📸 Example Flow
 
-![ManyChat Flow](docs/manychat-flow.png)
-![n8n Flow](docs/n8n-flow.png)
+### ManyChat Flow
+![ManyChat Flow](flow%20manychat.png)
 
+### n8n Flow
+![n8n Flow](flow%20n8n.png)
 
 
 
